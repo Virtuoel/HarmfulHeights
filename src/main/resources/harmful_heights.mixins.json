@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "virtuoel.harmful_heights.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"refmap": "HarmfulHeights-refmap.json",
+	"mixins":
+	[
+		"ServerPlayerInteractionManagerMixin"
+	],
+	"client":
+	[
+		
+	],
+	"injectors":
+	{
+		"defaultRequire": 1
+	}
+}

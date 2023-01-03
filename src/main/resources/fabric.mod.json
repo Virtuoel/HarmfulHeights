@@ -1,0 +1,37 @@
+{
+	"schemaVersion": 1,
+	"id": "harmful_heights",
+	"name": "Harmful Heights",
+	"version": "${version}",
+	"description": "The player starts off small and grows larger when taking damage.",
+	"authors":
+	[
+		"Virtuoel"
+	],
+	"contact":
+	{
+		"homepage": "https://www.curseforge.com/minecraft/mc-mods/harmful_heights",
+		"issues": "https://github.com/Virtuoel/HarmfulHeights/issues",
+		"sources": "https://github.com/Virtuoel/HarmfulHeights"
+	},
+	"license": "MIT",
+	"icon": "assets/harmful_heights/icon.png",
+	"environment": "*",
+	"depends":
+	{
+		"fabricloader": ">=0.14.11",
+		"pehkui": ">=3.6.3",
+		"magna": "*"
+	},
+	"entrypoints":
+	{
+		"main":
+		[
+			"virtuoel.harmful_heights.HarmfulHeights"
+		]
+	},
+	"mixins":
+	[
+		"harmful_heights.mixins.json"
+	]
+}
