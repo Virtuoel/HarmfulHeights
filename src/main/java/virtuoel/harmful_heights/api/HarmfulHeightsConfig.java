@@ -36,7 +36,7 @@ public class HarmfulHeightsConfig
 		private Common(final JsonConfigBuilder builder)
 		{
 			this.startingScale = builder.doubleConfig("startingScale", 0.1D);
-			this.maxScale = builder.doubleConfig("maxScale", 16.0D);
+			this.maxScale = builder.doubleConfig("maxScale", 8.0D);
 			this.damageIncrement = builder.doubleConfig("damageIncrement", 0.1D);
 		}
 	}
