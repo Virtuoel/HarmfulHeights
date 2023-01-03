@@ -12,10 +12,10 @@ import virtuoel.pehkui.api.TypedScaleModifier;
 
 public class ScaleTypeRegistrar
 {
-	public static final ScaleModifier HARM_MODIFIER = ScaleRegistries.register(
+	public static final ScaleModifier HARM_MULTIPLIER = ScaleRegistries.register(
 		ScaleRegistries.SCALE_MODIFIERS,
 		HarmfulHeights.id("harm_multiplier"),
-		new TypedScaleModifier(() -> ScaleTypeRegistrar.HARM_TYPE)
+		new TypedScaleModifier(() -> ScaleTypeRegistrar.HARM)
 		{
 			@Override
 			public float modifyScale(ScaleData scaleData, float modifiedScale, float delta)
@@ -31,7 +31,12 @@ public class ScaleTypeRegistrar
 		}
 	);
 	
-	public static final ScaleType HARM_TYPE = registerHarmType();
+	public static final ScaleType BREAKING = ScaleRegistries.register(
+		ScaleRegistries.SCALE_TYPES,
+		HarmfulHeights.id("breaking"),
+		ScaleType.Builder.create().build()
+	);
+	public static final ScaleType HARM = registerHarmType();
 	
 	private static ScaleType registerHarmType()
 	{
@@ -43,11 +48,12 @@ public class ScaleTypeRegistrar
 				.defaultBaseScale(HarmfulHeightsConfig.COMMON.startingScale.get().floatValue())
 				.affectsDimensions()
 				.defaultPersistence(true)
-				.addDependentModifier(HARM_MODIFIER)
+				.addDependentModifier(HARM_MULTIPLIER)
 				.build()
 		);
 		
-		ScaleTypes.BASE.getDefaultBaseValueModifiers().add(HARM_MODIFIER);
+		ScaleTypes.BASE.getDefaultBaseValueModifiers().add(HARM_MULTIPLIER);
+		ScaleTypeRegistrar.BREAKING.getDefaultBaseValueModifiers().add(HARM_MULTIPLIER);
 		
 		return type;
 	}

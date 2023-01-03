@@ -53,7 +53,7 @@ public class HarmfulHeights implements ModInitializer
 		{
 			if (entity instanceof PlayerEntity player)
 			{
-				final ScaleData data = ScaleTypeRegistrar.HARM_TYPE.getScaleData(entity);
+				final ScaleData data = ScaleTypeRegistrar.HARM.getScaleData(entity);
 				
 				if (data.getBaseScale() < 1.0F)
 				{
@@ -66,7 +66,7 @@ public class HarmfulHeights implements ModInitializer
 		{
 			if (entity instanceof PlayerEntity player && player.hurtTime == 0)
 			{
-				final ScaleData data = ScaleTypeRegistrar.HARM_TYPE.getScaleData(entity);
+				final ScaleData data = ScaleTypeRegistrar.HARM.getScaleData(entity);
 				final float scale = data.getBaseScale();
 				final float maxScale = HarmfulHeightsConfig.COMMON.maxScale.get().floatValue();
 				final float increment = HarmfulHeightsConfig.COMMON.damageIncrement.get().floatValue();
@@ -116,7 +116,7 @@ public class HarmfulHeights implements ModInitializer
 			return;
 		}
 		
-		final ScaleData data = ScaleTypeRegistrar.HARM_TYPE.getScaleData(player);
+		final ScaleData data = ScaleTypeRegistrar.BREAKING.getScaleData(player);
 		final float scale = data.getScale();
 		
 		if (scale > 1.0F)
