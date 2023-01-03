@@ -31,13 +31,17 @@ public class HarmfulHeightsConfig
 	{
 		public final Supplier<Double> startingScale;
 		public final Supplier<Double> maxScale;
-		public final Supplier<Double> damageIncrement;
+		public final Supplier<Double> growthIncrement;
+		public final Supplier<Boolean> damageGrowth;
+		public final Supplier<Boolean> growthBreaking;
 		
 		private Common(final JsonConfigBuilder builder)
 		{
 			this.startingScale = builder.doubleConfig("startingScale", 0.1D);
 			this.maxScale = builder.doubleConfig("maxScale", 8.0D);
-			this.damageIncrement = builder.doubleConfig("damageIncrement", 0.1D);
+			this.growthIncrement = builder.doubleConfig("growthIncrement", 0.1D);
+			this.damageGrowth = builder.booleanConfig("damageGrowth", true);
+			this.growthBreaking = builder.booleanConfig("growthBreaking", true);
 		}
 	}
 	

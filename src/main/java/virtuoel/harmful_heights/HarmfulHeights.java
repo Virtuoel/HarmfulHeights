@@ -55,7 +55,7 @@ public class HarmfulHeights implements ModInitializer
 			{
 				final ScaleData data = ScaleTypeRegistrar.HARM.getScaleData(entity);
 				
-				if (data.getBaseScale() < 1.0F)
+				if (data.getBaseScale() != 1.0F)
 				{
 					player.calculateDimensions();
 				}
@@ -64,36 +64,39 @@ public class HarmfulHeights implements ModInitializer
 		
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) ->
 		{
-			if (entity instanceof PlayerEntity player && player.hurtTime == 0)
+			if (entity instanceof PlayerEntity player && player.hurtTime == 0 && HarmfulHeightsConfig.COMMON.damageGrowth.get().booleanValue())
 			{
 				final ScaleData data = ScaleTypeRegistrar.HARM.getScaleData(entity);
 				final float scale = data.getBaseScale();
 				final float maxScale = HarmfulHeightsConfig.COMMON.maxScale.get().floatValue();
-				final float increment = HarmfulHeightsConfig.COMMON.damageIncrement.get().floatValue();
+				final float increment = HarmfulHeightsConfig.COMMON.growthIncrement.get().floatValue();
 				
 				if (scale < maxScale)
 				{
 					data.setTargetScale(Math.min(maxScale, scale + increment));
 					
-					final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
-					final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
-					final BlockPos end = new BlockPos(box.maxX - 1.0E-7, box.maxY - 1.0E-7, box.maxZ - 1.0E-7);
-					
-					if (player.world.isRegionLoaded(start, end))
+					if (HarmfulHeightsConfig.COMMON.growthBreaking.get().booleanValue())
 					{
-						BlockPos.stream(start, end).forEach(pos ->
+						final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
+						final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
+						final BlockPos end = new BlockPos(box.maxX - 1.0E-7, box.maxY - 1.0E-7, box.maxZ - 1.0E-7);
+						
+						if (player.world.isRegionLoaded(start, end))
 						{
-							final BlockState blockState = player.world.getBlockState(pos);
-							
-							if (VoxelShapes.matchesAnywhere(
-								blockState.getCollisionShape(player.world, pos)
-									.offset((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()),
-								VoxelShapes.cuboid(box),
-								BooleanBiFunction.AND))
+							BlockPos.stream(start, end).forEach(pos ->
 							{
-								player.world.breakBlock(pos, true, player);
-							}
-						});
+								final BlockState blockState = player.world.getBlockState(pos);
+								
+								if (VoxelShapes.matchesAnywhere(
+									blockState.getCollisionShape(player.world, pos)
+										.offset((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()),
+									VoxelShapes.cuboid(box),
+									BooleanBiFunction.AND))
+								{
+									player.world.breakBlock(pos, true, player);
+								}
+							});
+						}
 					}
 				}
 				
