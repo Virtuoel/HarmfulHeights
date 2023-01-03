@@ -29,19 +29,19 @@ public class HarmfulHeightsConfig
 	
 	public static final class Common
 	{
+		public final Supplier<Boolean> damageGrowsPlayer;
 		public final Supplier<Double> startingScale;
-		public final Supplier<Double> maxScale;
 		public final Supplier<Double> growthIncrement;
-		public final Supplier<Boolean> damageGrowth;
-		public final Supplier<Boolean> growthBreaking;
+		public final Supplier<Double> maxScale;
+		public final Supplier<Boolean> growthBreaksSurroundings;
 		
 		private Common(final JsonConfigBuilder builder)
 		{
+			this.damageGrowsPlayer = builder.booleanConfig("damageGrowsPlayer", true);
 			this.startingScale = builder.doubleConfig("startingScale", 0.1D);
-			this.maxScale = builder.doubleConfig("maxScale", 8.0D);
 			this.growthIncrement = builder.doubleConfig("growthIncrement", 0.1D);
-			this.damageGrowth = builder.booleanConfig("damageGrowth", true);
-			this.growthBreaking = builder.booleanConfig("growthBreaking", true);
+			this.maxScale = builder.doubleConfig("maxScale", 8.0D);
+			this.growthBreaksSurroundings = builder.booleanConfig("growthBreaksSurroundings", true);
 		}
 	}
 	

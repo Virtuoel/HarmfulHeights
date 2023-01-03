@@ -64,7 +64,7 @@ public class HarmfulHeights implements ModInitializer
 		
 		ServerLivingEntityEvents.ALLOW_DAMAGE.register((entity, source, amount) ->
 		{
-			if (entity instanceof PlayerEntity player && player.hurtTime == 0 && HarmfulHeightsConfig.COMMON.damageGrowth.get().booleanValue())
+			if (entity instanceof PlayerEntity player && player.hurtTime == 0 && HarmfulHeightsConfig.COMMON.damageGrowsPlayer.get().booleanValue())
 			{
 				final ScaleData data = ScaleTypeRegistrar.HARM.getScaleData(entity);
 				final float scale = data.getBaseScale();
@@ -75,7 +75,7 @@ public class HarmfulHeights implements ModInitializer
 				{
 					data.setTargetScale(Math.min(maxScale, scale + increment));
 					
-					if (HarmfulHeightsConfig.COMMON.growthBreaking.get().booleanValue())
+					if (HarmfulHeightsConfig.COMMON.growthBreaksSurroundings.get().booleanValue())
 					{
 						final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
 						final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
