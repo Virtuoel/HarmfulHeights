@@ -69,10 +69,11 @@ public class HarmfulHeights implements ModInitializer
 				final ScaleData data = ScaleTypeRegistrar.HARM_TYPE.getScaleData(entity);
 				final float scale = data.getBaseScale();
 				final float maxScale = HarmfulHeightsConfig.COMMON.maxScale.get().floatValue();
+				final float increment = HarmfulHeightsConfig.COMMON.damageIncrement.get().floatValue();
 				
-				if (scale < HarmfulHeightsConfig.COMMON.maxScale.get().floatValue())
+				if (scale < maxScale)
 				{
-					data.setTargetScale(Math.min(maxScale, scale + HarmfulHeightsConfig.COMMON.damageIncrement.get().floatValue()));
+					data.setTargetScale(Math.min(maxScale, scale + increment));
 					
 					final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
 					final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
