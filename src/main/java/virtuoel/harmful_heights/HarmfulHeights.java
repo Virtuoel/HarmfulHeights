@@ -18,6 +18,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityPose;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -73,7 +74,7 @@ public class HarmfulHeights implements ModInitializer
 				{
 					data.setTargetScale(Math.min(maxScale, scale + HarmfulHeightsConfig.COMMON.damageIncrement.get().floatValue()));
 					
-					final Box box = player.getBoundingBox();
+					final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
 					final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
 					final BlockPos end = new BlockPos(box.maxX - 1.0E-7, box.maxY - 1.0E-7, box.maxZ - 1.0E-7);
 					
