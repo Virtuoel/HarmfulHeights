@@ -54,7 +54,7 @@ public class HarmfulHeights implements ModInitializer
 			{
 				final ScaleData data = ScaleTypeRegistrar.HARM_TYPE.getScaleData(entity);
 				
-				if (data.getBaseScale() != 1.0F)
+				if (data.getBaseScale() < 1.0F)
 				{
 					player.calculateDimensions();
 				}
