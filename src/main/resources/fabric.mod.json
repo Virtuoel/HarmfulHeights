@@ -3,14 +3,14 @@
 	"id": "harmful_heights",
 	"name": "Harmful Heights",
 	"version": "${version}",
-	"description": "The player starts off small and grows larger when taking damage.",
+	"description": "You start off small, growing larger when taking damage. Now you move faster, reach farther away, and mine larger areas.",
 	"authors":
 	[
 		"Virtuoel"
 	],
 	"contact":
 	{
-		"homepage": "https://www.curseforge.com/minecraft/mc-mods/harmful_heights",
+		"homepage": "https://modrinth.com/mod/harmful_heights",
 		"issues": "https://github.com/Virtuoel/HarmfulHeights/issues",
 		"sources": "https://github.com/Virtuoel/HarmfulHeights"
 	},
