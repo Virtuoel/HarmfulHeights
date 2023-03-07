@@ -2,9 +2,9 @@ package virtuoel.harmful_heights;
 
 import java.util.List;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.spongepowered.asm.logging.ILogger;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.service.MixinService;
 
 import draylar.magna.Magna;
 import draylar.magna.api.BlockBreaker;
@@ -23,6 +23,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
@@ -37,7 +38,7 @@ public class HarmfulHeights implements ModInitializer
 {
 	public static final String MOD_ID = "harmful_heights";
 	
-	public static final Logger LOGGER = LogManager.getLogger(MOD_ID);
+	public static final ILogger LOGGER = MixinService.getService().getLogger(MOD_ID);
 	
 	public HarmfulHeights()
 	{
@@ -71,10 +72,15 @@ public class HarmfulHeights implements ModInitializer
 				final float maxScale = HarmfulHeightsConfig.COMMON.maxScale.get().floatValue();
 				final float increment = HarmfulHeightsConfig.COMMON.growthIncrement.get().floatValue();
 				
+				boolean changed = false;
 				if (scale < maxScale)
 				{
 					data.setTargetScale(Math.min(maxScale, scale + increment));
-					
+					changed = true;
+				}
+				
+				if (changed || HarmfulHeightsConfig.COMMON.maxScaleDamageBreaksSurroundings.get().booleanValue())
+				{
 					if (HarmfulHeightsConfig.COMMON.growthBreaksSurroundings.get().booleanValue())
 					{
 						final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
@@ -99,7 +105,6 @@ public class HarmfulHeights implements ModInitializer
 						}
 					}
 				}
-				
 			}
 			
 			return true;
@@ -195,10 +200,19 @@ public class HarmfulHeights implements ModInitializer
 						}
 					};
 					
+					final boolean damageToolPerBlock = HarmfulHeightsConfig.COMMON.damageToolForEveryBlockBroken.get().booleanValue();
+					
 					final boolean lastValue = Magna.CONFIG.autoPickup;
 					Magna.CONFIG.autoPickup = true;
-					BlockBreaker.breakInRadius(world, player, scaledRadius, scaledDepth, sortedFinder, validator, processor, true);
+					BlockBreaker.breakInRadius(world, player, scaledRadius, scaledDepth, sortedFinder, validator, processor, damageToolPerBlock);
 					Magna.CONFIG.autoPickup = lastValue;
+					
+					if (!damageToolPerBlock)
+					{
+						stack.postMine(world, state, pos, player);
+						player.incrementStat(Stats.MINED.getOrCreateStat(state.getBlock()));
+						player.addExhaustion(0.005F);
+					}
 					
 					info.setReturnValue(true);
 				}

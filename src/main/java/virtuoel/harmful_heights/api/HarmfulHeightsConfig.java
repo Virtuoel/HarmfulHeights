@@ -34,6 +34,8 @@ public class HarmfulHeightsConfig
 		public final Supplier<Double> growthIncrement;
 		public final Supplier<Double> maxScale;
 		public final Supplier<Boolean> growthBreaksSurroundings;
+		public final Supplier<Boolean> maxScaleDamageBreaksSurroundings;
+		public final Supplier<Boolean> damageToolForEveryBlockBroken;
 		
 		private Common(final JsonConfigBuilder builder)
 		{
@@ -42,6 +44,8 @@ public class HarmfulHeightsConfig
 			this.growthIncrement = builder.doubleConfig("growthIncrement", 0.1D);
 			this.maxScale = builder.doubleConfig("maxScale", 8.0D);
 			this.growthBreaksSurroundings = builder.booleanConfig("growthBreaksSurroundings", true);
+			this.maxScaleDamageBreaksSurroundings = builder.booleanConfig("maxScaleDamageBreaksSurroundings", true);
+			this.damageToolForEveryBlockBroken = builder.booleanConfig("damageToolForEveryBlockBroken", false);
 		}
 	}
 	
