@@ -28,6 +28,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.function.BooleanBiFunction;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.World;
 import virtuoel.harmful_heights.api.HarmfulHeightsConfig;
@@ -84,8 +85,8 @@ public class HarmfulHeights implements ModInitializer
 					if (HarmfulHeightsConfig.COMMON.growthBreaksSurroundings.get().booleanValue())
 					{
 						final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
-						final BlockPos start = new BlockPos(box.minX + 1.0E-7, box.minY + 1.0E-7, box.minZ + 1.0E-7);
-						final BlockPos end = new BlockPos(box.maxX - 1.0E-7, box.maxY - 1.0E-7, box.maxZ - 1.0E-7);
+						final BlockPos start = new BlockPos(MathHelper.floor(box.minX + 1.0E-7), MathHelper.floor(box.minY + 1.0E-7), MathHelper.floor(box.minZ + 1.0E-7));
+						final BlockPos end = new BlockPos(MathHelper.floor(box.maxX - 1.0E-7), MathHelper.floor(box.maxY - 1.0E-7), MathHelper.floor(box.maxZ - 1.0E-7));
 						
 						if (player.world.isRegionLoaded(start, end))
 						{
