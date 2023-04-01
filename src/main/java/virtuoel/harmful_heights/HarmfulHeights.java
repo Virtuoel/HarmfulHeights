@@ -136,9 +136,9 @@ public class HarmfulHeights implements ModInitializer
 			final BlockFinder finder;
 			final BlockProcessor processor;
 			final BreakValidator validator;
-			boolean ignoredTool = false;
+			boolean hasToolRadius = false;
 			
-			if (stack.getItem() instanceof MagnaTool tool && (ignoredTool = tool.ignoreRadiusBreak(stack, player)))
+			if (stack.getItem() instanceof MagnaTool tool && (hasToolRadius = !tool.ignoreRadiusBreak(stack, player)))
 			{
 				breakRadius = tool.getRadius(stack);
 				depth = tool.getDepth(stack);
@@ -179,7 +179,7 @@ public class HarmfulHeights implements ModInitializer
 			
 			if (state.getHardness(world, pos) > 0 && player.canHarvest(state))
 			{
-				final int radius = ignoredTool ? 0 : ToolRadiusCallback.EVENT.invoker().getRadius(stack, breakRadius);
+				final int radius = !hasToolRadius ? 0 : ToolRadiusCallback.EVENT.invoker().getRadius(stack, breakRadius);
 				
 				final int diameter = 1 + (2 * radius);
 				final float scaledDiameter = diameter * scale;
@@ -201,7 +201,7 @@ public class HarmfulHeights implements ModInitializer
 						}
 					};
 					
-					final boolean damageToolPerBlock = HarmfulHeightsConfig.COMMON.damageToolForEveryBlockBroken.get().booleanValue();
+					final boolean damageToolPerBlock = hasToolRadius || HarmfulHeightsConfig.COMMON.damageToolForEveryBlockBroken.get().booleanValue();
 					
 					final boolean lastValue = Magna.CONFIG.autoPickup;
 					Magna.CONFIG.autoPickup = true;
