@@ -87,20 +87,21 @@ public class HarmfulHeights implements ModInitializer
 						final Box box = player.getDimensions(EntityPose.STANDING).getBoxAt(player.getPos());
 						final BlockPos start = new BlockPos(MathHelper.floor(box.minX + 1.0E-7), MathHelper.floor(box.minY + 1.0E-7), MathHelper.floor(box.minZ + 1.0E-7));
 						final BlockPos end = new BlockPos(MathHelper.floor(box.maxX - 1.0E-7), MathHelper.floor(box.maxY - 1.0E-7), MathHelper.floor(box.maxZ - 1.0E-7));
+						final World world = player.getEntityWorld();
 						
-						if (player.world.isRegionLoaded(start, end))
+						if (world.isRegionLoaded(start, end))
 						{
 							BlockPos.stream(start, end).forEach(pos ->
 							{
-								final BlockState blockState = player.world.getBlockState(pos);
+								final BlockState blockState = world.getBlockState(pos);
 								
 								if (VoxelShapes.matchesAnywhere(
-									blockState.getCollisionShape(player.world, pos)
+									blockState.getCollisionShape(world, pos)
 										.offset((double) pos.getX(), (double) pos.getY(), (double) pos.getZ()),
 									VoxelShapes.cuboid(box),
 									BooleanBiFunction.AND))
 								{
-									player.world.breakBlock(pos, true, player);
+									world.breakBlock(pos, true, player);
 								}
 							});
 						}
