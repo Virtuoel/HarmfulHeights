@@ -4,6 +4,7 @@ import java.util.function.Supplier;
 
 import org.jetbrains.annotations.ApiStatus;
 
+import net.fabricmc.loader.api.FabricLoader;
 import virtuoel.harmful_heights.HarmfulHeights;
 import virtuoel.kanos_config.api.JsonConfigBuilder;
 
@@ -12,7 +13,7 @@ public class HarmfulHeightsConfig
 	@ApiStatus.Internal
 	public static final JsonConfigBuilder BUILDER = new JsonConfigBuilder(
 		HarmfulHeights.MOD_ID,
-		"config.json"
+		FabricLoader.getInstance().getConfigDir().resolve(HarmfulHeights.MOD_ID).resolve("config.json").normalize()
 	);
 	
 	public static final Client CLIENT = new Client(BUILDER);
