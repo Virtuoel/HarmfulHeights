@@ -19,8 +19,8 @@
 	"environment": "*",
 	"depends":
 	{
-		"fabricloader": ">=0.14.17",
-		"pehkui": ">=3.6.3",
+		"fabricloader": ">=0.14.19",
+		"pehkui": ">=3.7.5",
 		"magna": "*"
 	},
 	"entrypoints":
